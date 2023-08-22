@@ -1,43 +1,31 @@
-/*  
-    Arduino with PIR motion sensor
-    For complete project details, visit: http://RandomNerdTutorials.com/pirsensor
-    Modified by Rui Santos based on PIR sensor by Limor Fried
-*/
- 
-int led = D4;                // the pin that the LED is atteched to
-int sensor = D1;              // the pin that the sensor is atteched to
-// int buzzer = D5;              // the pin that the buzzer is attached to 
-int state = LOW;             // by default, no motion detected
-int val = 0;                 // variable to store the sensor status (value)
+/*
+ * Created by ArduinoGetStarted.com
+ *
+ * This example code is in the public domain
+ *
+ * Tutorial page: https://arduinogetstarted.com/tutorials/arduino-water-sensor
+ */
+
+#define POWER_PIN  D7
+#define SIGNAL_PIN A0
+
+int value = 0; // variable to store the sensor value
 
 void setup() {
-  pinMode(led, OUTPUT);      // initalize LED as an output
-  pinMode(sensor, INPUT);    // initialize sensor as an input
-  // pinMode(buzzer, OUTPUT);   // initialize buzzer as an output
-  Serial.begin(9600);        // initialize serial
+  Serial.begin(9600);
+  pinMode(POWER_PIN, OUTPUT);   // configure D7 pin as an OUTPUT
+  digitalWrite(POWER_PIN, LOW); // turn the sensor OFF
 }
 
-void loop(){
-  val = digitalRead(sensor);   // read sensor value
-  if (val == HIGH) {           // check if the sensor is HIGH
-    digitalWrite(led, HIGH);   // turn LED ON
-    // digitalWrite(buzzer, HIGH); //turn buzzer ON
-    delay(100);                // delay 100 milliseconds 
-    
-    if (state == LOW) {
-      Serial.println("Motion detected!"); 
-      state = HIGH;       // update variable state to HIGH
-    }
-  } 
-  else {
-      digitalWrite(led, LOW); // turn LED OFF
-      // digitalWrite(buzzer, LOW); //turn buzzer OFF
-      delay(200);             // delay 200 milliseconds 
-      
-      if (state == HIGH){
-        Serial.println("Motion stopped!");
-        Serial.println("");
-        state = LOW;       // update variable state to LOW
-    }
-  }
+void loop() {
+  digitalWrite(POWER_PIN, HIGH);  // turn the sensor ON
+  delay(10);                      // wait 10 milliseconds
+  value = analogRead(SIGNAL_PIN); // read the analog value from sensor
+  digitalWrite(POWER_PIN, LOW);   // turn the sensor OFF
+
+  Serial.print("Sensor value: ");
+  Serial.println(value);
+  Serial.println("");
+
+  delay(1000);
 }
