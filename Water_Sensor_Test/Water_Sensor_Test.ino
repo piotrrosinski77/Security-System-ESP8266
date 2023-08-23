@@ -1,11 +1,3 @@
-/*
- * Created by ArduinoGetStarted.com
- *
- * This example code is in the public domain
- *
- * Tutorial page: https://arduinogetstarted.com/tutorials/arduino-water-sensor
- */
-
 #define POWER_PIN  D7
 #define SIGNAL_PIN A0
 
@@ -23,9 +15,9 @@ void loop() {
   value = analogRead(SIGNAL_PIN); // read the analog value from sensor
   digitalWrite(POWER_PIN, LOW);   // turn the sensor OFF
 
-  Serial.print("Sensor value: ");
+  Serial.print("Sensor value: "); // write the value from sensor 
   Serial.println(value);
   Serial.println("");
 
-  delay(1000);
+  delay(1000);					  // one second delay 
 }
