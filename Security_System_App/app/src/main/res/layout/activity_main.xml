@@ -186,7 +186,8 @@
         app:layout_constraintEnd_toEndOf="@+id/textView4"
         app:layout_constraintStart_toStartOf="@+id/textView4"
         app:layout_constraintTop_toTopOf="@+id/textView4"
-        app:srcCompat="@drawable/fire" />
+        app:srcCompat="@drawable/fire"
+        android:contentDescription="@string/fire"/>
 
     <ImageView
         android:id="@+id/imageView5"
@@ -196,7 +197,8 @@
         app:layout_constraintEnd_toEndOf="@+id/textView6"
         app:layout_constraintStart_toStartOf="@+id/textView6"
         app:layout_constraintTop_toTopOf="@+id/textView6"
-        app:srcCompat="@drawable/leak" />
+        app:srcCompat="@drawable/leak"
+        android:contentDescription="@string/leak" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
