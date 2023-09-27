@@ -6,5 +6,5 @@
     <string name="burglar">burglar</string>
     <string name="noise">noise</string>
     <string name="fire">fire</string>
-    <string name="water_leak">water_leak</string>
+    <string name="leak">leak</string>
 </resources>
