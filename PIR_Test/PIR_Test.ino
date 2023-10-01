@@ -1,36 +1,26 @@
-int sensor = D1;             	// the pin that the sensor is atteched to
-// int buzzer = D5;             // the pin that the buzzer is attached to 
-int state = LOW;             	// by default, no motion detected
-int val = 0;                	// variable to store the sensor status (value)
+#define sensor D1             //pin, do którego dołączony jest czujnik
+#define buzzer D5             //pin, do którego dołączony jest brzęczyk
+#define led D8				        //pin, do którego dołączony jest LED
 
 void setup() {
-  pinMode(led, OUTPUT);      	// initalize LED as an output
-  pinMode(sensor, INPUT);    	// initialize sensor as an input
-  // pinMode(buzzer, OUTPUT);	// initialize buzzer as an output
-  Serial.begin(9600);        	// initialize serial
+	pinMode(sensor, INPUT);    	//ustaw czujnik jako wyjście
+	pinMode(led, OUTPUT);      	//ustaw LED jako wyjście 
+	pinMode(buzzer, OUTPUT);	  //ustaw brzęczyk jako wyjście
+	Serial.begin(9600);        	//otwórz transmisję szeregową
 }
 
 void loop(){
-  val = digitalRead(sensor);   		// read sensor value
-  if (val == HIGH) {           		// check if the sensor is HIGH
-    digitalWrite(led, HIGH);   		// turn LED ON
-    // digitalWrite(buzzer, HIGH); 	//turn buzzer ON
-    delay(100);                		// delay 100 milliseconds 
-    
-    if (state == LOW) {
-      Serial.println("Motion detected!"); 
-      state = HIGH;       			// update variable state to HIGH
-    }
-  } 
+  if (digitalRead(sensor) == HIGH) {   //sprawdź, czy stan jest wysoki
+	  Serial.println("Wykryto ruch!"); 	 //wypisz w transmisji szeregowej
+    digitalWrite(led, HIGH);   				 //włącz LED
+    digitalWrite(buzzer, HIGH); 			 //włącz brzęczyk
+    delay(1000);                			 //opóźnij 1000 ms
+  }
+    			
   else {
-      digitalWrite(led, LOW); 			// turn LED OFF
-      // digitalWrite(buzzer, LOW); 	//turn buzzer OFF
-      delay(200);             			// delay 200 milliseconds 
-      
-      if (state == HIGH){
-        Serial.println("Motion stopped!");
-        Serial.println("");
-        state = LOW;       				// update variable state to LOW
-    }
+	  Serial.println("Nie wykryto ruchu!");	//wypisz w transmisji szeregowej
+	  digitalWrite(led, LOW); 				      //wyłącz LED
+    digitalWrite(buzzer, LOW); 			      //wyłącz brzęczyk
+    delay(1000);             				      //opóźnij 1000 ms
   }
 }
