@@ -1,23 +1,40 @@
-#define POWER_PIN  D7
-#define SIGNAL_PIN A0
+#define sensor A0             //pin, do którego dołączony jest czujnik
+#define power D1 				//pin zasilający czujnik 
+#define buzzer D5             //pin, do którego dołączony jest brzęczyk
+#define led D8				//pin, do którego dołączony jest LED
 
-int value = 0; // variable to store the sensor value
+int value = 0; 					//wartość początkowa stanu czujnika
 
 void setup() {
-  Serial.begin(9600);
-  pinMode(POWER_PIN, OUTPUT);   // configure D7 pin as an OUTPUT
-  digitalWrite(POWER_PIN, LOW); // turn the sensor OFF
+	pinMode(sensor, INPUT);		//ustaw czujnik jako wejście
+	pinMode(power, OUTPUT);   	//ustaw pin zasilający jako wyjście
+	pinMode(led, OUTPUT);      	//ustaw LED jako wyjście 
+	pinMode(buzzer, OUTPUT);	//ustaw brzęczyk jako wyjście
+	digitalWrite(power, LOW); 	//wyłącz czujnik
+	Serial.begin(9600);			//otwórz transmisję szeregową
 }
 
 void loop() {
-  digitalWrite(POWER_PIN, HIGH);  // turn the sensor ON
-  delay(10);                      // wait 10 milliseconds
-  value = analogRead(SIGNAL_PIN); // read the analog value from sensor
-  digitalWrite(POWER_PIN, LOW);   // turn the sensor OFF
+	digitalWrite(power, HIGH);    //włącz czujnik
+	delay(10);                    //opóźnij 10 ms
+	value = analogRead(sensor);   //odczytaj analogową wartość z czujnika
+	digitalWrite(power, LOW);     //wyłącz czujnik
+	
+	Serial.print("Ilość wody: "); //wypisz w transmisji szeregowej
+	Serial.println(value);		  //wypisz wartość czujnika
+	Serial.println("");			  //wypisz linijkę odstępu
+	
+	if (value > 400) {				  //jeżeli wartość większa niż 400 jednostek wody
+		digitalWrite(led, HIGH);   	  //włącz LED
+		digitalWrite(buzzer, HIGH);   //włącz brzęczyk
+		delay(100);                   //opóźnij 100 ms
+	}
+	
+	else {
+		digitalWrite(led, LOW);   	  	//wyłącz LED
+		digitalWrite(buzzer, LOW);   	//wyłącz brzęczyk
+		delay(100);           			//opóźnij 100 ms
+  }
 
-  Serial.print("Sensor value: "); // write the value from sensor 
-  Serial.println(value);
-  Serial.println("");
-
-  delay(1000);					  // one second delay 
+	delay(1000);				  		//opóźnij 1000 ms
 }
