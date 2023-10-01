@@ -1,25 +1,32 @@
-#define sensorPin D0 // Digital input pin that the Sensor is attached to
+#define sensor D1			//pin, do którego dołączony jest czujnik
+#define buzzer D5     //pin, do którego dołączony jest brzęczyk
+#define led D8			  //pin, do którego dołączony jest LED
 
 void setup() {
-   pinMode(sensorPin, INPUT);
-   Serial.begin(9600); // Initialize serial communication
-
+	pinMode(sensor, INPUT);		  //ustaw czujnik jako wejście
+	pinMode(led, OUTPUT);      	//ustaw LED jako wyjście 
+	pinMode(buzzer, OUTPUT);	  //ustaw brzęczyk jako wyjście
+	Serial.begin(9600); 		    //otwórz transmisję szeregową
 }
 
 void loop() {
-  int sensorValue = digitalRead(sensorPin);
-  if (digitalRead(sensorPin) == HIGH) 
+  if (digitalRead(sensor) == HIGH)
+  //Outputs low level when there is sound
   {
-    Serial.println("Sound level is not exceeded.");
+    Serial.println("Nie wykryto hałasu.");
     Serial.println("");
-    delay(100); 						// 100 ms delay
+	  digitalWrite(led, LOW);   			  //wyłącz LED
+    digitalWrite(buzzer, LOW); 			  //wyłącz brzęczyk
+    delay(100); 						          //opóźnij 1000 ms
   }
-
-	else 
-	{
-	  Serial.println("Sound level is exceeded");
+  
+  else 
+  {
+	  Serial.println("Wykryto hałas.");
     Serial.println("");
-    delay(100);
-	}
-
+	  digitalWrite(led, HIGH);   			  //włącz LED
+    digitalWrite(buzzer, HIGH); 		  //włącz brzęczyk
+    delay(1000);							        //opóźnij 1000 ms
+  }
+  
 }
