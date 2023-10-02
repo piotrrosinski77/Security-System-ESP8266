@@ -7,4 +7,6 @@
     <string name="noise">noise</string>
     <string name="fire">fire</string>
     <string name="leak">leak</string>
+    <string name="cloud">cloud</string>
+    <string name="question">question</string>
 </resources>
