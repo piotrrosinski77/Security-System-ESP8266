@@ -223,14 +223,25 @@
         android:layout_marginStart="9dp"
         android:layout_marginTop="88dp"
         android:layout_marginBottom="36dp"
+        android:contentDescription="@string/question"
         app:layout_constraintBottom_toTopOf="@+id/textView5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView10"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
         app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/question"
-        android:contentDescription="@string/question" />
+        app:srcCompat="@drawable/question" />
+
+    <TextView
+        android:id="@+id/editTextTime"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="LabelFor" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
