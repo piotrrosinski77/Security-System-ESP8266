@@ -8,9 +8,6 @@ import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import java.util.Calendar;
-import java.util.Date;
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -19,7 +16,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN); //Fullscreen mode (without toolbar on the top)
+                WindowManager.LayoutParams.FLAG_FULLSCREEN); //Fullscreen mode (without status bar)
+
 
         if (isOnline()) {
             Toast.makeText(MainActivity.this.getApplicationContext(),
