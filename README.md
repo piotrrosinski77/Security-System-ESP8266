@@ -1,3 +1,2 @@
 <h2>📱 Security-System-ESP8266</h2>
-<img src = "https://user-images.githubusercontent.com/92042731/271950947-2ae155ff-7aaf-43bf-9936-d8eb4ba660d3.jpg" width="200px">
-
+<img src = "https://user-images.githubusercontent.com/92042731/271980535-207fdb36-7d49-45e3-81ee-11d5627b43a0.jpg " width="200px">
