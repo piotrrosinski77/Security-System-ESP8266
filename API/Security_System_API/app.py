@@ -1,57 +1,77 @@
 from flask import Flask, request, jsonify
-
+import json
+import pymysql
 
 app = Flask(__name__)
 
-water_values = [
-    {"id": 0, "value": "1"},
-    {"id": 1, "value": "2"},
-    {"id": 2, "value": "3"},
-    {"id": 3, "value": "4"},
-    {"id": 4, "value": "5"},
-]
+
+def db_connection():
+    conn = None
+    try:
+        conn = pymysql.connect(host='',
+                               database='',
+                               user='',
+                               password='',
+                               charset='',
+                               cursorclass='')
+    except pymysql.Error as e:
+        print(e)
+    return conn
 
 
 @app.route("/water", methods=["GET", "POST"])
 def water():
+    conn = db_connection()
+    cursor = conn.cursor()
+
     if request.method == "GET":
-        if len(water_values) > 0:
+        cursor = conn.execute("SELECT * FROM water_values")
+        water_values = [
+            dict(id=row['id'], value=row['value'])
+            for row in cursor.fetchall()
+        ]
+        if water_values is not None:
             return jsonify(water_values)
-        else:
-            "Nothing Found", 404
 
     if request.method == "POST":
         new_value = request.form["value"]
-        iD = water_values[-1]["id"] + 1
+        sql = """INSERT INTO water_values (value)
+                 VALUES (%i)"""
 
-        new_obj = {
-            "id": iD,
-            "value": new_value,
-        }
-        water_values.append(new_obj)
-        return jsonify(water_values), 201
+        cursor = cur.execute(sql, (new_value))
+        conn.commit()
+        return f"Value with the id: {cursor.lastrowid} created successfully"
 
 
 @app.route("/waterSpecific/<int:id>", methods=["GET", "POST", "PUT", "DELETE"])
 def waterSpecific(id):
+    conn = db_connection()
+    cursor = conn.cursor()
+    water = None
+
     if request.method == "GET":
-        for water in water_values:
-            if water["id"] == id:
-                return jsonify(water)
-            pass
+        cursor.execute("SELECT * FROM water_values WHERE id?", (id,))
+        rows = cursor.fetchall()
+        for r in rows:
+            water = r
+        if water is not None:
+            return jsonify(water), 200
+        else:
+            return "Something wrong", 404
 
     if request.method == "PUT":
-        for water in water_values:
-            if water["id"] == id:
-                water["value"] = request.form["value"]
-                updated_water = {"id": id, "value": water["value"]}
-                return jsonify(updated_water)
+        sql = """UPDATE water_values SET value=? WHERE id=?"""
+        value = request.form["value"]
+        updated_water = {"id": id, "value": water["value"]}
+        conn.execute(sql, (value, id))
+        conn.commit()
+        return jsonify(updated_water)
 
     if request.method == "DELETE":
-        for index, water in enumerate(water_values):
-            if water["id"] == id:
-                water_values.pop(index)
-                return jsonify(water_values)
+        sql = """DELETE FROM water_values WHERE id=?"""
+        conn.execute(sql, (id,))
+        conn.commit()
+        return "The value with id: {} has been deleted.".format(id), 200
 
 
 if __name__ == "__main__":
