@@ -8,12 +8,14 @@ app = Flask(__name__)
 def db_connection():
     conn = None
     try:
-        conn = pymysql.connect(host='',
-                               database='',
-                               user='',
-                               password='',
-                               charset='',
-                               cursorclass='')
+        conn = pymysql.connect(
+            host="sql11.freesqldatabase.com",
+            database="sql11652302",
+            user="sql11652302",
+            password="",
+            charset="utf8mb4",
+            cursorclass=pymysql.cursors.DictCursor,
+        )
     except pymysql.Error as e:
         print(e)
     return conn
@@ -25,20 +27,19 @@ def water():
     cursor = conn.cursor()
 
     if request.method == "GET":
-        cursor = conn.execute("SELECT * FROM water_values")
+        cursor = conn.execute("SELECT * FROM water")
         water_values = [
-            dict(id=row['id'], value=row['value'])
-            for row in cursor.fetchall()
+            dict(id=row["id"], value=row["value"]) for row in cursor.fetchall()
         ]
         if water_values is not None:
             return jsonify(water_values)
 
     if request.method == "POST":
         new_value = request.form["value"]
-        sql = """INSERT INTO water_values (value)
-                 VALUES (%i)"""
+        sql = """INSERT INTO water (value)
+                 VALUES (%d)"""
 
-        cursor = cur.execute(sql, (new_value))
+        cursor = cursor.execute(sql, (new_value))
         conn.commit()
         return f"Value with the id: {cursor.lastrowid} created successfully"
 

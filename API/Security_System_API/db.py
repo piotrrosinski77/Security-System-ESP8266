@@ -10,7 +10,7 @@ conn = pymysql.connect(
 )
 
 cursor = conn.cursor()
-sql_query = """ CREATE TABLE water_values (
+sql_query = """ CREATE TABLE water (
     id integer PRIMARY KEY,
     value integer NOT NULL
 )"""
