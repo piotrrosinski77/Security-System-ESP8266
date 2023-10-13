@@ -10,9 +10,9 @@ def db_connection():
     try:
         conn = pymysql.connect(
             host="sql11.freesqldatabase.com",
-            database="sql11652302",
-            user="sql11652302",
-            password="",
+            database="sql11653073",
+            user="sql11653073",
+            password="fI1zuJwbKf",
             charset="utf8mb4",
             cursorclass=pymysql.cursors.DictCursor,
         )
@@ -27,31 +27,31 @@ def water():
     cursor = conn.cursor()
 
     if request.method == "GET":
-        cursor = conn.execute("SELECT * FROM water")
+        cursor.execute("SELECT * FROM water")
         water_values = [
             dict(id=row["id"], value=row["value"]) for row in cursor.fetchall()
         ]
         if water_values is not None:
-            return jsonify(water_values)
+            return jsonify(water_values), 200
 
     if request.method == "POST":
         new_value = request.form["value"]
         sql = """INSERT INTO water (value)
-                 VALUES (%d)"""
+                 VALUES (%s)"""
 
         cursor = cursor.execute(sql, (new_value))
         conn.commit()
-        return f"Value with the id: {cursor.lastrowid} created successfully"
+        return "Value created successfully", 201
 
 
-@app.route("/waterSpecific/<int:id>", methods=["GET", "POST", "PUT", "DELETE"])
+@app.route("/specwater/<int:id>", methods=["GET", "PUT", "DELETE"])
 def waterSpecific(id):
     conn = db_connection()
     cursor = conn.cursor()
     water = None
 
     if request.method == "GET":
-        cursor.execute("SELECT * FROM water_values WHERE id?", (id,))
+        cursor.execute("SELECT * FROM water WHERE id=%s", (id,))
         rows = cursor.fetchall()
         for r in rows:
             water = r
@@ -60,17 +60,18 @@ def waterSpecific(id):
         else:
             return "Something wrong", 404
 
+
     if request.method == "PUT":
-        sql = """UPDATE water_values SET value=? WHERE id=?"""
+        sql = """UPDATE water SET value=%s WHERE id=%s"""
         value = request.form["value"]
-        updated_water = {"id": id, "value": water["value"]}
-        conn.execute(sql, (value, id))
+        updated_water = {"id": id, "value": value}
+        cursor.execute(sql, (value, id))
         conn.commit()
-        return jsonify(updated_water)
+        return jsonify(updated_water), 201
 
     if request.method == "DELETE":
-        sql = """DELETE FROM water_values WHERE id=?"""
-        conn.execute(sql, (id,))
+        sql = """DELETE FROM water WHERE id=%s"""
+        cursor.execute(sql, (id,))
         conn.commit()
         return "The value with id: {} has been deleted.".format(id), 200
 
