@@ -9,9 +9,9 @@ def db_connection():
     conn = None
     try:
         conn = pymysql.connect(
-            host="sql11.freesqldatabase.com",
-            database="sql11653073",
-            user="sql11653073",
+            host="database-security-system.cvsya5hj2kmb.eu-central-1.rds.amazonaws.com",
+            database="values",
+            user="Piotr",
             password="fI1zuJwbKf",
             charset="utf8mb4",
             cursorclass=pymysql.cursors.DictCursor,
@@ -27,7 +27,7 @@ def water():
     cursor = conn.cursor()
 
     if request.method == "GET":
-        cursor.execute("SELECT * FROM water")
+        cursor.execute("SELECT * FROM water_values")
         water_values = [
             dict(id=row["id"], value=row["value"]) for row in cursor.fetchall()
         ]
@@ -36,7 +36,7 @@ def water():
 
     if request.method == "POST":
         new_value = request.form["value"]
-        sql = """INSERT INTO water (value)
+        sql = """INSERT INTO water_values (value)
                  VALUES (%s)"""
 
         cursor = cursor.execute(sql, (new_value))
@@ -51,7 +51,7 @@ def waterSpecific(id):
     water = None
 
     if request.method == "GET":
-        cursor.execute("SELECT * FROM water WHERE id=%s", (id,))
+        cursor.execute("SELECT * FROM water_values WHERE id=%s", (id,))
         rows = cursor.fetchall()
         for r in rows:
             water = r
@@ -60,9 +60,8 @@ def waterSpecific(id):
         else:
             return "Something wrong", 404
 
-
     if request.method == "PUT":
-        sql = """UPDATE water SET value=%s WHERE id=%s"""
+        sql = """UPDATE water_values SET value=%s WHERE id=%s"""
         value = request.form["value"]
         updated_water = {"id": id, "value": value}
         cursor.execute(sql, (value, id))
@@ -70,11 +69,13 @@ def waterSpecific(id):
         return jsonify(updated_water), 201
 
     if request.method == "DELETE":
-        sql = """DELETE FROM water WHERE id=%s"""
+        sql = """DELETE FROM water_values WHERE id=%s"""
         cursor.execute(sql, (id,))
         conn.commit()
         return "The value with id: {} has been deleted.".format(id), 200
 
 
+
 if __name__ == "__main__":
     app.run()
+
