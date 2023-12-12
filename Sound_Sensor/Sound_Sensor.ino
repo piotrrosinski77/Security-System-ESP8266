@@ -8,7 +8,7 @@ const char* password = "eszewerie95";
 unsigned long lastTime = 0;
 unsigned long timerDelay = 5000;
 
-int value = 0; 					//wartość początkowa stanu czujnika
+int value;					//wartość początkowa stanu czujnika
 
 #define sensor D1			//pin, do którego dołączony jest czujnik
 #define led D8			  //pin, do którego dołączony jest LED
@@ -30,7 +30,8 @@ void loop() {
     Serial.println("Nie wykryto hałasu.");
     Serial.println("");
 	digitalWrite(led, LOW);   			  //wyłącz LED
-	int value = 0;
+	value = 0;
+	Serial.println(value);
     delay(1000); 						          //opóźnij 1000 ms
 	
   }
@@ -40,7 +41,8 @@ void loop() {
 	Serial.println("Wykryto hałas.");
     Serial.println("");
 	digitalWrite(led, HIGH);   			  //włącz LED
-	int value = 1;
+	value = 1;
+	Serial.println(value);
     delay(3500);							        //opóźnij 1000 ms
 	
   }
