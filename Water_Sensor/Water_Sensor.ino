@@ -8,12 +8,12 @@ const char* password = "eszewerie95";
 unsigned long lastTime = 0;
 unsigned long timerDelay = 5000;
 
+int value = 0; 					//wartość początkowa stanu czujnika
+
 #define sensor A0       //pin, do którego dołączony jest czujnik
 #define power D1 				//pin zasilający czujnik 
 #define buzzer D5       //pin, do którego dołączony jest brzęczyk
 #define led D8				  //pin, do którego dołączony jest LED
-
-int value = 0; 					//wartość początkowa stanu czujnika
 
 void setup() {
 	pinMode(sensor, INPUT);		  //ustaw czujnik jako wejście
@@ -33,8 +33,6 @@ void setup() {
 	Serial.println("");
 	Serial.print("Connected to WiFi network with IP Address: ");
 	Serial.println(WiFi.localIP());
- 
-	Serial.println("Timer set to 5 seconds (timerDelay variable), it will take 5 seconds before publishing the first reading.");
 }
 
 void loop() {
