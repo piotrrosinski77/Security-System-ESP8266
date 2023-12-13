@@ -59,41 +59,62 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Long doInBackground(String... params) {
-            HttpURLConnection connection = null;
-            int status;
+            HttpURLConnection connWater = null;
+            HttpURLConnection connSound = null;
+
+            int statusWater;
+            int statusSound;
             try {
-                URL dataUrl = new URL("https://security-system-api-260273149601.herokuapp.com/water");
-                connection = (HttpURLConnection) dataUrl.openConnection();
-                connection.connect();
-                status = connection.getResponseCode();
+                URL dataUrlWater = new URL("https://security-system-api-260273149601.herokuapp.com/water");
+                URL dataUrlSound = new URL("https://security-system-api-260273149601.herokuapp.com/sound");
+                connWater = (HttpURLConnection) dataUrlWater.openConnection();
+                connSound = (HttpURLConnection) dataUrlSound.openConnection();
+                connWater.connect();
+                connSound.connect();
+                statusWater = connWater.getResponseCode();
+                statusSound = connWater.getResponseCode();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
 
-            StringBuilder sb = null;
-            if (status == 200) {
-                InputStream is = null;
+            StringBuilder sbWater = null;
+            StringBuilder sbSound = null;
+            if (statusWater == 200 && statusSound == 200) {
+                InputStream isWater = null;
+                InputStream isSound = null;
                 try {
-                    is = connection.getInputStream();
+                    isWater = connWater.getInputStream();
+                    isSound = connSound.getInputStream();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-                BufferedReader reader = new BufferedReader(new
-                        InputStreamReader(is));
-                String responseString;
-                sb = new StringBuilder();
+                BufferedReader readerWater = new BufferedReader(new
+                        InputStreamReader(isWater));
+                BufferedReader readerSound = new BufferedReader(new
+                        InputStreamReader(isSound));
+                String responseStringWater;
+                String responseStringSound;
+                sbWater = new StringBuilder();
+                sbSound = new StringBuilder();
                 while (true) {
                     try {
-                        if ((responseString = reader.readLine()) == null) break;
+                        if ((responseStringWater = readerWater.readLine()) == null)
+                            break;
+                        if ((responseStringSound = readerSound.readLine()) == null)
+                            break;
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
-                    sb = sb.append(responseString);
+                    sbWater = sbWater.append(responseStringWater);
+                    sbSound = sbSound.append(responseStringSound);
                 }
             }
-            assert sb != null;
-            String values = sb.toString();
-            Log.d("VALUES", values);
+            assert sbWater != null;
+            assert sbSound != null;
+            String valuesWater = sbWater.toString();
+            String valuesSound = sbSound.toString();
+            Log.d("VALUESWATER", valuesWater);
+            Log.d("VALUESSOUND", valuesSound);
             return (0L);
         }
     }
