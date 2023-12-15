@@ -1,11 +1,13 @@
 package com.example.securitysystemapp;
-import static kotlin.io.ConsoleKt.readLine;
 import java.io.IOException;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.AsyncTask;
@@ -15,57 +17,72 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;import android.app.FragmentTransaction;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 import org.json.JSONException;
-import java.net.MalformedURLException;
-import java.io.IOException;
-
+import org.json.JSONObject;
+import org.json.JSONArray;
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
+    int value;
+    public MainActivity() throws JSONException {
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        TextView status = findViewById(R.id.status);
-        TextView burIcon = findViewById(R.id.burIcon);
-        TextView coIcon = findViewById(R.id.coIcon);
-        TextView watIcon = findViewById(R.id.watIcon);
-        TextView soundIcon = findViewById(R.id.soundIcon);
-
-        //status.setText("Alarm");
-        //status.setText("OK");
-
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN); //Fullscreen mode (without status bar)
 
+        TextView burIcon = findViewById(R.id.burIcon);
+        TextView coIcon = findViewById(R.id.coIcon);
+        TextView soundIcon = findViewById(R.id.soundIcon);
+
+        TextView status = findViewById(R.id.status);
+
+        //status.setText("Alarm");
+        //status.setText("OK");
 
         if (isOnline()) {
             Toast.makeText(MainActivity.this.getApplicationContext(),
                     "Connection found.", Toast.LENGTH_SHORT).show();
             LoadValues task = new LoadValues();
             task.execute();
-        }
-        else {
+        } else {
             Toast.makeText(MainActivity.this.getApplicationContext(),
                     "No connection found. Connect your device and try again later.", Toast.LENGTH_LONG).show();
         }
     }
+
     private boolean isOnline() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
     }
 
-    private class LoadValues extends AsyncTask<String , String , Long > {
+    private class LoadValues extends AsyncTask<String, String, Long> {
+        @Override
+        protected void onPostExecute(Long result) {
 
+            TextView watIcon = findViewById(R.id.watIcon);
+            TextView watIconfalse = findViewById(R.id.watIconfalse);
+            TextView watIcontrue = findViewById(R.id.watIcontrue);
+
+                if (value > 400) {
+                    watIcon.setVisibility(View.GONE);
+                    watIconfalse.setVisibility(View.VISIBLE);
+                }
+
+                if (value < 400) {
+                    watIcon.setVisibility(View.GONE);
+                    watIcontrue.setVisibility(View.VISIBLE);
+                }
+
+                else {
+                    watIcon.setVisibility(View.VISIBLE);
+                    watIconfalse.setVisibility(View.GONE);
+                }
+            }
         @Override
         protected Long doInBackground(String... params) {
 
@@ -214,6 +231,21 @@ public class MainActivity extends AppCompatActivity {
             Log.d("VALUESMOTION", valuesMotion);
             Log.d("VALUESREEDSWITCH", valuesReedSwitch);
 
+            try {
+                JSONArray jsonArray = new JSONArray(valuesWater);
+
+                if (jsonArray.length() > 0) {
+                    JSONObject lastObject = jsonArray.getJSONObject(jsonArray.length() - 1);
+                    int lastId = lastObject.getInt("id");
+                    value = lastObject.getInt("value");
+
+                    Log.d("PUREWATER", "Last ID: " + lastId + ", Value: " + value);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Log.e("PUREWATER", "Error processing JSON");
+            }
             return (0L);
         }
     }
