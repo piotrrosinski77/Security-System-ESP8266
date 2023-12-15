@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Security System App</string>
     <string name="security_system_esp8266">Security System based on ESP8266</string>
-    <string name="status_unknown">Status: Unknown</string>
+    <string name="status_unknown">Status: Unknown ❔</string>
     <string name="home_icon">home icon</string>
     <string name="burglar">burglar</string>
     <string name="noise">noise</string>

@@ -7,7 +7,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.AsyncTask;
@@ -20,10 +19,17 @@ import java.net.URL;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONArray;
-import org.w3c.dom.Text;
+import android.os.Handler;
 
 public class MainActivity extends AppCompatActivity {
-    int value;
+    int watValue;
+    int coValue;
+    int burValue;
+    int reedValue;
+    int soundValue;
+    Handler handler = new Handler();
+    Runnable runnable;
+    int delay = 3000;
     public MainActivity() throws JSONException {
     };
 
@@ -34,15 +40,6 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN); //Fullscreen mode (without status bar)
 
-        TextView burIcon = findViewById(R.id.burIcon);
-        TextView coIcon = findViewById(R.id.coIcon);
-        TextView soundIcon = findViewById(R.id.soundIcon);
-
-        TextView status = findViewById(R.id.status);
-
-        //status.setText("Alarm");
-        //status.setText("OK");
-
         if (isOnline()) {
             Toast.makeText(MainActivity.this.getApplicationContext(),
                     "Connection found.", Toast.LENGTH_SHORT).show();
@@ -52,6 +49,22 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this.getApplicationContext(),
                     "No connection found. Connect your device and try again later.", Toast.LENGTH_LONG).show();
         }
+    }
+    @Override
+    protected void onResume() {
+        handler.postDelayed(runnable = new Runnable() {
+            public void run() {
+                handler.postDelayed(runnable, delay);
+                LoadValues task = new LoadValues();
+                task.execute();
+            }
+        }, delay);
+        super.onResume();
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        handler.removeCallbacks(runnable); //stop handler when activity not visible super.onPause();
     }
 
     private boolean isOnline() {
@@ -64,25 +77,95 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Long result) {
 
+            TextView status = findViewById(R.id.status);
+
+            if (watValue > 400 || coValue > 1000 || burValue == 1 || reedValue == 1 || soundValue == 1) {
+                status.setText("Status: Alarm ❕");
+
+            } else if (watValue < 400 && coValue < 1000 && burValue == 0 && reedValue == 0 && soundValue == 0) {
+                status.setText("Status: OK 🙂");
+            } else {
+                status.setText("Status: Unknown ❔");
+            }
+
             TextView watIcon = findViewById(R.id.watIcon);
             TextView watIconfalse = findViewById(R.id.watIconfalse);
             TextView watIcontrue = findViewById(R.id.watIcontrue);
 
-                if (value > 400) {
-                    watIcon.setVisibility(View.GONE);
-                    watIconfalse.setVisibility(View.VISIBLE);
-                }
-
-                if (value < 400) {
-                    watIcon.setVisibility(View.GONE);
-                    watIcontrue.setVisibility(View.VISIBLE);
-                }
-
-                else {
-                    watIcon.setVisibility(View.VISIBLE);
-                    watIconfalse.setVisibility(View.GONE);
-                }
+            if (watValue > 400) {
+                watIcon.setVisibility(View.GONE);
+                watIconfalse.setVisibility(View.VISIBLE);
+                watIcontrue.setVisibility(View.GONE);
+            } else if (watValue < 400) {
+                watIcon.setVisibility(View.GONE);
+                watIcontrue.setVisibility(View.VISIBLE);
+                watIconfalse.setVisibility(View.GONE);
+            } else {
+                watIcon.setVisibility(View.VISIBLE);
+                watIcontrue.setVisibility(View.GONE);
+                watIconfalse.setVisibility(View.GONE);
             }
+
+            TextView coIcon = findViewById(R.id.coIcon);
+            TextView coIconfalse = findViewById(R.id.coIconfalse);
+            TextView coIcontrue = findViewById(R.id.coIcontrue);
+
+            if (coValue > 1000) {
+                coIcon.setVisibility(View.GONE);
+                coIcontrue.setVisibility(View.GONE);
+                coIconfalse.setVisibility(View.VISIBLE);
+            }
+
+            else if (coValue < 400) {
+                coIcon.setVisibility(View.GONE);
+                coIconfalse.setVisibility(View.GONE);
+                coIcontrue.setVisibility(View.VISIBLE);
+
+            } else {
+                coIcon.setVisibility(View.VISIBLE);
+                coIconfalse.setVisibility(View.GONE);
+                coIcontrue.setVisibility(View.GONE);
+            }
+
+            TextView burIcon = findViewById(R.id.burIcon);
+            TextView burIconfalse = findViewById(R.id.burIconfalse);
+            TextView burIcontrue = findViewById(R.id.burIcontrue);
+
+            if (burValue == 1 || reedValue == 1) {
+                burIcon.setVisibility(View.GONE);
+                burIconfalse.setVisibility(View.VISIBLE);
+                burIcontrue.setVisibility(View.GONE);
+
+            } else if (burValue == 0 && reedValue == 0) {
+                burIcon.setVisibility(View.GONE);
+                burIconfalse.setVisibility(View.GONE);
+                burIcontrue.setVisibility(View.VISIBLE);
+
+            } else {
+                burIcon.setVisibility(View.VISIBLE);
+                burIconfalse.setVisibility(View.GONE);
+                burIcontrue.setVisibility(View.GONE);
+            }
+
+            TextView soundIcon = findViewById(R.id.soundIcon);
+            TextView soundIconfalse = findViewById(R.id.soundIconfalse);
+            TextView soundIcontrue = findViewById(R.id.soundIcontrue);
+
+            if (soundValue == 1) {
+                soundIcon.setVisibility(View.GONE);
+                soundIconfalse.setVisibility(View.VISIBLE);
+                soundIcontrue.setVisibility(View.GONE);
+
+            } else if (soundValue == 0) {
+                soundIcon.setVisibility(View.GONE);
+                soundIconfalse.setVisibility(View.GONE);
+                soundIcontrue.setVisibility(View.VISIBLE);
+            } else {
+                soundIcon.setVisibility(View.VISIBLE);
+                soundIconfalse.setVisibility(View.GONE);
+                soundIcontrue.setVisibility(View.GONE);
+            }
+        }
         @Override
         protected Long doInBackground(String... params) {
 
@@ -237,15 +320,80 @@ public class MainActivity extends AppCompatActivity {
                 if (jsonArray.length() > 0) {
                     JSONObject lastObject = jsonArray.getJSONObject(jsonArray.length() - 1);
                     int lastId = lastObject.getInt("id");
-                    value = lastObject.getInt("value");
+                    watValue = lastObject.getInt("value");
 
-                    Log.d("PUREWATER", "Last ID: " + lastId + ", Value: " + value);
+                    Log.d("PUREWATER", "Last ID: " + lastId + ", Value: " + watValue);
                 }
 
             } catch (JSONException e) {
                 e.printStackTrace();
                 Log.e("PUREWATER", "Error processing JSON");
             }
+
+            try {
+                JSONArray jsonArray = new JSONArray(valuesGas);
+
+                if (jsonArray.length() > 0) {
+                    JSONObject lastObject = jsonArray.getJSONObject(jsonArray.length() - 1);
+                    int lastId = lastObject.getInt("id");
+                    coValue = lastObject.getInt("value");
+
+                    Log.d("PUREGAS", "Last ID: " + lastId + ", Value: " + coValue);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Log.e("PUREGAS", "Error processing JSON");
+            }
+
+            try {
+                JSONArray jsonArray = new JSONArray(valuesMotion);
+
+                if (jsonArray.length() > 0) {
+                    JSONObject lastObject = jsonArray.getJSONObject(jsonArray.length() - 1);
+                    int lastId = lastObject.getInt("id");
+                    burValue = lastObject.getInt("value");
+
+                    Log.d("PUREMOTION", "Last ID: " + lastId + ", Value: " + burValue);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Log.e("PUREMOTION", "Error processing JSON");
+            }
+
+            try {
+                JSONArray jsonArray = new JSONArray(valuesReedSwitch);
+
+                if (jsonArray.length() > 0) {
+                    JSONObject lastObject = jsonArray.getJSONObject(jsonArray.length() - 1);
+                    int lastId = lastObject.getInt("id");
+                    reedValue = lastObject.getInt("value");
+
+                    Log.d("PUREREED", "Last ID: " + lastId + ", Value: " + reedValue);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Log.e("PUREREED", "Error processing JSON");
+            }
+
+            try {
+                JSONArray jsonArray = new JSONArray(valuesSound);
+
+                if (jsonArray.length() > 0) {
+                    JSONObject lastObject = jsonArray.getJSONObject(jsonArray.length() - 1);
+                    int lastId = lastObject.getInt("id");
+                    soundValue = lastObject.getInt("value");
+
+                    Log.d("PURESOUND", "Last ID: " + lastId + ", Value: " + soundValue);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Log.e("PURESOUND", "Error processing JSON");
+            }
+
             return (0L);
         }
     }

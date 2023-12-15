@@ -46,7 +46,7 @@
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="95dp"
         android:fontFamily="sans-serif-monospace"
         android:shadowColor="@color/text_shadow_white"
         android:shadowDx="1"
@@ -90,10 +90,62 @@
         app:layout_constraintVertical_bias="0.066" />
 
     <TextView
+        android:id="@+id/burIconfalse"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:foreground="@drawable/exclamation"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/textView7"
+        app:layout_constraintEnd_toEndOf="@id/textView4"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView7"
+        app:layout_constraintVertical_bias="0.066" />
+
+    <TextView
+        android:id="@+id/burIcontrue"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:foreground="@drawable/check_mark"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/textView7"
+        app:layout_constraintEnd_toEndOf="@id/textView4"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView7"
+        app:layout_constraintVertical_bias="0.066" />
+
+    <TextView
         android:id="@+id/coIcon"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:foreground="@drawable/no_signal"
+        app:layout_constraintBottom_toBottomOf="@+id/textView4"
+        app:layout_constraintEnd_toEndOf="@id/textView7"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView7"
+        app:layout_constraintVertical_bias="0.62" />
+
+    <TextView
+        android:id="@+id/coIconfalse"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:foreground="@drawable/exclamation"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/textView4"
+        app:layout_constraintEnd_toEndOf="@id/textView7"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView7"
+        app:layout_constraintVertical_bias="0.62" />
+
+    <TextView
+        android:id="@+id/coIcontrue"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:foreground="@drawable/check_mark"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="@id/textView7"
         app:layout_constraintHorizontal_bias="0.2"
@@ -115,10 +167,10 @@
 
     <TextView
         android:id="@+id/watIcontrue"
-        android:visibility="gone"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:foreground="@drawable/check_mark"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/coIcon"
         app:layout_constraintEnd_toEndOf="@id/textView5"
         app:layout_constraintHorizontal_bias="0.645"
@@ -128,10 +180,10 @@
 
     <TextView
         android:id="@+id/watIconfalse"
-        android:visibility="gone"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:foreground="@drawable/exclamation"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/coIcon"
         app:layout_constraintEnd_toEndOf="@id/textView5"
         app:layout_constraintHorizontal_bias="0.645"
@@ -144,6 +196,32 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:foreground="@drawable/no_signal"
+        app:layout_constraintBottom_toBottomOf="@+id/textView5"
+        app:layout_constraintEnd_toEndOf="@id/textView3"
+        app:layout_constraintHorizontal_bias="0.621"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView5"
+        app:layout_constraintVertical_bias="0.066" />
+
+    <TextView
+        android:id="@+id/soundIconfalse"
+        android:visibility="gone"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:foreground="@drawable/exclamation"
+        app:layout_constraintBottom_toBottomOf="@+id/textView5"
+        app:layout_constraintEnd_toEndOf="@id/textView3"
+        app:layout_constraintHorizontal_bias="0.621"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView5"
+        app:layout_constraintVertical_bias="0.066" />
+
+    <TextView
+        android:id="@+id/soundIcontrue"
+        android:visibility="gone"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:foreground="@drawable/check_mark"
         app:layout_constraintBottom_toBottomOf="@+id/textView5"
         app:layout_constraintEnd_toEndOf="@id/textView3"
         app:layout_constraintHorizontal_bias="0.621"
@@ -174,10 +252,10 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_height="111dp"
+        android:layout_marginTop="4dp"
         android:contentDescription="@string/home_icon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
         app:srcCompat="@drawable/apple_home" />
