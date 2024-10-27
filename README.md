@@ -1,4 +1,4 @@
-<h2>📱 Security System with ESP8266</h2>
+<h2>📱 Security System based on ESP8266</h2>
 
 <p>This ESP8266-based security system provides real-time alerts for potential safety hazards, including:</p>
 
