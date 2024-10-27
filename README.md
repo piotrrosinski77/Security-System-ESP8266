@@ -12,6 +12,10 @@
   
 </ul> 
 
+<h3>🌐 API (Flask)</h3> 
+
+<p>The system communicates through an API built with Flask, hosted on Heroku. This API enables secure and efficient data exchange between the ESP8266 and the user interface.</p> 
+
 <h3>🛠 Sensors Used</h3> 
 
 <p>The security system utilizes the following sensors:</p> 
