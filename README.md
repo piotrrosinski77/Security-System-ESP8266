@@ -23,7 +23,10 @@
 <ul> 
   
   <li>PIR Motion Sensor HC-SR505 with a 100° field of view and detection range up to 3 meters</li> 
-  <li>Analog Liquid Level Sensor SE045</li> <li>Air Quality Sensor MQ-135 for detecting pollutants like benzene, ammonia (NH<sub>3</sub>), and carbon dioxide (CO<sub>2</sub>)</li> 
+  <li>Analog Liquid Level Sensor SE045</li>
+    <img src="img/water_sensor.png" width="120px">
+  <li>Air Quality Sensor MQ-135 for detecting pollutants like benzene, ammonia (NH<sub>3</sub>), and carbon dioxide (CO<sub>2</sub>)</li>
+  <img src="img/MQ-135.png" width="120px">
   <li>Sound Sensor with a built-in capacitive microphone</li> 
   <li>MC-38 Magnetic Door/Window Contact Sensor</li> </ul> 
   
