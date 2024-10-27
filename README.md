@@ -1,5 +1,7 @@
 <h2>📱 Security System based on ESP8266</h2>
 
+<img src="img/esp8266.jpg" width="200px">
+
 <p>This ESP8266-based security system provides real-time alerts for potential safety hazards, including:</p>
 
 <ul>
@@ -12,7 +14,7 @@
 
 <h3>📸 Screenshots</h3>
 <p>
-  <img src="https://raw.githubusercontent.com/piotrrosinski77/Security-System-ESP8266/main/1.jpg" width="200px">
-  <img src="https://raw.githubusercontent.com/piotrrosinski77/Security-System-ESP8266/main/2.jpg" width="200px">
-  <img src="https://raw.githubusercontent.com/piotrrosinski77/Security-System-ESP8266/main/3.jpg" width="200px">
+  <img src="img/1.jpg" width="200px">
+  <img src="img/2.jpg" width="200px">
+  <img src="img/3.jpg" width="200px">
 </p>
